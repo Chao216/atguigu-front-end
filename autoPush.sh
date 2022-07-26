@@ -1,6 +1,6 @@
 #!/bin/bash
 
-time=`date +%y-%m-%d@&H:%M:%S`
+time=`date +%y-%m-%d@%H:%M:%S`
 
 git add *
 git commit -m "pushed on $time"
