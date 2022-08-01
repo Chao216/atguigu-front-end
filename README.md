@@ -29,3 +29,9 @@ then put everything in a router element, then create ***path element pair***
 ```
 
 Note! new version use Routes to replace Switch, element for component
+
+### Bonus, convert image in linux
+
+```shell
+convert old.jpg -resize 100x100 new.jpg
+```
