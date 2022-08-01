@@ -6,3 +6,24 @@ due to the dependency issue, use alpha version for craco and craco-less at the m
 
 1. `$ npm i @craco/craco@alpha` [craco](https://github.com/dilanx/craco/issues/442)
 1. `npm i craco-less@2.1.0-alpha.0` [craco-less](https://github.com/DocSpring/craco-less/issues/95)
+
+## 2. use router
+
+quick start
+
+you need to import necessary component for use router
+```javascript
+import{BrowserRouter as Router, Route, Routes} from "react-router-dom"
+```
+
+then import your own components
+
+then put everything in a router element, then create ***path element pair***
+```javascript
+<Router>
+        <Routes>
+        <Route path="/login" element={<Login/>} />
+        <Route path="/" element={<Admin/>}/>
+        </Routes>
+      </Router>
+```
