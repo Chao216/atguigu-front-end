@@ -1,7 +1,7 @@
 import { Component } from "react";
 
 import { Button } from 'antd';
-import './App.css';
+import './App.less';
 
 export default class App extends Component {
   render() {
