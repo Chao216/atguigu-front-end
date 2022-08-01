@@ -27,3 +27,5 @@ then put everything in a router element, then create ***path element pair***
         </Routes>
       </Router>
 ```
+
+Note! new version use Routes to replace Switch, element for component
