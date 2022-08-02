@@ -35,3 +35,5 @@ Note! new version use Routes to replace Switch, element for component
 ```shell
 convert old.jpg -resize 100x100 new.jpg
 ```
+
+to read documentation for Login component, go to [Login](./components-design/Login.md)
