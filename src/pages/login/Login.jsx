@@ -32,14 +32,11 @@ export default class Login extends Component {
         console.log('Received values of form: ', values);
         const {username, password}=values
         // reqLogin(username,password).then(response=>{console.log("successful", response.data)}).catch(error=>{console.log("failed", error)})
-        try {
+        
           const response = await reqLogin(username,password)
           console.log("succeed", response.data)
 
-        }catch(error){
-          console.log("failed")
-          console.error(error)
-        }
+       
       };
         return(
             <div className="login">
