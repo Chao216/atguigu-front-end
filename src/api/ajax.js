@@ -6,11 +6,12 @@ wrap axios to send ajax request
 
 export default function ajax(url, data={}, method="GET"){
     if (method==="get"){
-        axios.get(url,{
+
+       return axios.get(url,{
             params:data
         })
     } else {
-        axios.post(url, data)
+        return axios.post(url, data)
     }
 
 }

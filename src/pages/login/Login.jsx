@@ -5,6 +5,7 @@ import logo from "./images/Timma-logos-300.jpeg"
 // import antd components
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
+import {reqLogin} from "../../api"
 
 
 // this is the login router component
@@ -29,6 +30,9 @@ export default class Login extends Component {
     render(){
       const onFinish = (values) => {
         console.log('Received values of form: ', values);
+        const {username, password}=values
+        reqLogin(username,password).then(response=>{console.log("successful", response.data)}).catch(error=>{console.log("failed", error)})
+
       };
         return(
             <div className="login">
@@ -54,7 +58,7 @@ export default class Login extends Component {
             message: 'Please input your Username!',
           },
           {
-            min: 6,
+            min: 4,
             message: 'username at least 6 digits',
           },
           {
