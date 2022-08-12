@@ -1,17 +1,32 @@
-import React, {Component} from "react"
+import React from "react"
 import "./login.less"
 import logo from "./images/Timma-logos-300.jpeg"
+import {useNavigate}from "react-router-dom"
 
 // import antd components
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import {reqLogin} from "../../api"
 
 
-// this is the login router component
-export default class Login extends Component {
+export default function Login(){
+  let navigate = useNavigate()
+  async function onFinish(values){
+    
+      console.log('Received values of form: ', values);
+      const {username, password}=values
+      // reqLogin(username,password).then(response=>{console.log("successful", response.data)}).catch(error=>{console.log("failed", error)})
+      
+        const response = await reqLogin(username,password)
+        
+        if (response.status===0){
+          navigate("/")
+        } else {
+          message.error("invalid password or username")
+        }
+  }
 
-   validatePwd = (rule,value)=>{
+  function validatePwd(rule,value){
     if (!value){
       return Promise.reject(new Error('cannot be empty'));
     } else if (value.length<4){
@@ -27,82 +42,69 @@ export default class Login extends Component {
       return Promise.resolve()
     }
    }
-    render(){
-      const onFinish = async (values) => {
-        console.log('Received values of form: ', values);
-        const {username, password}=values
-        // reqLogin(username,password).then(response=>{console.log("successful", response.data)}).catch(error=>{console.log("failed", error)})
-        
-          const response = await reqLogin(username,password)
-          console.log("succeed", response.data)
 
+   return <div className="login">
+   <header className="login-header">
+       <img src={logo} alt="header-logo"  />
+       <h1>TIMMA managment system</h1>
+   </header>
+   <section className="login-content">
+       <h2>Login</h2>
+       <Form
+name="normal_login"
+className="login-form"
+initialValues={{
+remember: true,
+}}
+onFinish={onFinish}
+>
+<Form.Item
+name="username"
+rules={[
+{
+required: true,
+message: 'Please input your Username!',
+},
+{
+min: 4,
+message: 'username at least 6 digits',
+},
+{
+max: 12,
+message: 'username at most 12 digits',
+},
+{
+pattern: /^[a-zA-Z0-9_]+$/,
+message: 'must contain number, letter, and underscore',
+},
+]}
+>
+<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+</Form.Item>
+<Form.Item
+name="password"
+rules={[
+{
+validator:validatePwd
+}
+]}
+>
+<Input
+prefix={<LockOutlined className="site-form-item-icon" />}
+type="password"
+placeholder="Password"
+/>
+</Form.Item>
+
+
+<Form.Item>
+<Button type="primary" htmlType="submit" className="login-form-button">
+Log in
+</Button>
+
+</Form.Item>
+</Form>
        
-      };
-        return(
-            <div className="login">
-                <header className="login-header">
-                    <img src={logo} alt="header-logo"  />
-                    <h1>TIMMA managment system</h1>
-                </header>
-                <section className="login-content">
-                    <h2>Login</h2>
-                    <Form
-      name="normal_login"
-      className="login-form"
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-    >
-      <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Username!',
-          },
-          {
-            min: 4,
-            message: 'username at least 6 digits',
-          },
-          {
-            max: 12,
-            message: 'username at most 12 digits',
-          },
-          {
-            pattern: /^[a-zA-Z0-9_]+$/,
-            message: 'must contain number, letter, and underscore',
-          },
-        ]}
-      >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[
-          {
-          validator:this.validatePwd
-          }
-        ]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item>
-      
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
-        </Button>
-        
-      </Form.Item>
-    </Form>
-                    
-                </section>
-            </div>
-        )
-    }
+   </section>
+</div>
 }
