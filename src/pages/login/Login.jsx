@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useEffect } from "react"
 import "./login.less"
 import logo from "./images/Timma-logos-300.jpeg"
 import {useNavigate}from "react-router-dom"
+import memoryUtils from "../../utils/memoryUtils"
+import storageUtils from "../../utils/storageUtils"
 
 // import antd components
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
@@ -11,6 +13,17 @@ import {reqLogin} from "../../api"
 
 export default function Login(){
   let navigate = useNavigate()
+   // here we will check if user is already logged in. if he/she did, go to admin.
+
+   useEffect(()=>{
+    const user = memoryUtils.user
+    if (user._id){
+      navigate("/")
+    }
+
+   })
+  
+   
   async function onFinish(values){
     
       console.log('Received values of form: ', values);
@@ -20,6 +33,11 @@ export default function Login(){
         const response = await reqLogin(username,password)
         
         if (response.status===0){
+          const user = response.data
+          //store info into RAM
+          memoryUtils.user=user
+          //let us also store the user info in localStorage
+          storageUtils.saveUser(user)
           navigate("/")
         } else {
           message.error("invalid password or username")
@@ -42,7 +60,8 @@ export default function Login(){
       return Promise.resolve()
     }
    }
-
+ 
+  
    return <div className="login">
    <header className="login-header">
        <img src={logo} alt="header-logo"  />
