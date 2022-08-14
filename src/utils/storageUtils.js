@@ -7,7 +7,7 @@ const storageUtils=
         store.set(USER_KEY,user)
     },
     getUser(){
-        return store.get(USER_KEY)
+        return store.get(USER_KEY) || {}//be very careeful, if no user, return an empty object!!!
     },
     removeUser(){
         store.remove(USER_KEY)
